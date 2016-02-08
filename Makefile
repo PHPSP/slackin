@@ -1,18 +1,4 @@
-
-BABEL = ./node_modules/.bin/babel
-
-all: node
-
-node: lib
-	@mkdir -p node/assets/
-	@rm -rf node/assets/*
-	@cp -r lib/assets node/
-	@for path in lib/*.js; do \
-		file=`basename $$path`; \
-		$(BABEL) "lib/$$file" > "node/$$file"; \
-	done
-
 docker:
-	@if test "$(SLACK_SUBDOMAIN)" = "" || test "$(SLACK_API_TOKEN)" = ""; then echo "Need to set/export SLACK_SUBDOMAIN and SLACK_API_TOKEN" && exit 1; fi;
+	@if test "$(SLACK_API_TOKEN)" = "" || test "$(SLACK_COC)" = ""; then echo "Need to set/export SLACK_API_TOKEN and SLACK_COC" && exit 1; fi;
 	docker build -t phpsp/slackin . && \
-	docker run phpsp/slackin ./bin/slackin $$SLACK_SUBDOMAIN $$SLACK_API_TOKEN
+	docker run -p 3000:3000 phpsp/slackin ./bin/slackin --coc $$SLACK_COC phpsp $$SLACK_API_TOKEN
