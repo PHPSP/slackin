@@ -36,5 +36,6 @@
     "test": "mocha",
     "postinstall": "gulp",
     "start": "make && ./bin/slackin $SLACK_SUBDOMAIN $SLACK_API_TOKEN -p $SLACK_PORT"
+    "prestart": "npm install --unsafe-perm",
   }
 }
